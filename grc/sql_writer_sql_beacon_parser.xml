@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<block>
+  <name>sql_beacon_parser</name>
+  <key>sql_writer_sql_beacon_parser</key>
+  <category>sql_writer</category>
+  <import>import sql_writer</import>
+  <make>sql_writer.sql_beacon_parser($user, $password, $database, $table, $host, $port)</make>
+  <param>
+    <name>User</name>
+    <key>user</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Password</name>
+    <key>password</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Database</name>
+    <key>database</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Table</name>
+    <key>table</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Host</name>
+    <key>host</key>
+    <value>"127.0.0.1"</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Port</name>
+    <key>port</key>
+    <value>0</value>
+    <type>raw</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>message</type>
+  </sink>
+</block>
