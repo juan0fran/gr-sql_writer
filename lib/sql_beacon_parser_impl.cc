@@ -212,13 +212,18 @@ namespace gr {
       std::string str_values;
       std::vector<std::string> values;
       HKData hk;
-
       memcpy(data, pmt::uniform_vector_elements(msg, offset), sizeof(data));
       /* Check if the first byte corresponds to the length of the data and to the sizeof(HKData) */
       if (( (int)data[0] == (msg_size - 1) ) && ( (int)data[0] == sizeof(HKData) )){
         /* in case of that, the message is HKData struct sized!!! Heureka */
         /* now just put into ''std::vector<std::string> values'' the string corresponding to the data */
         memcpy(&hk, data+1, sizeof(HKData));
+        if (hk.gps.time_local >= 2147483647){
+            hk.gps.time_local = 0;
+        }
+        if (hk.gps.time_gps >= 2147483647){
+            hk.gps.time_gps = 0;
+        }
         str_values.append(tostr(hk.gps.time_local)); str_values.append(",");
         str_values.append(tostr(hk.gps.time_gps)); str_values.append(",");
         str_values.append(tostr(hk.gps.lat)); str_values.append(",");
@@ -261,14 +266,14 @@ namespace gr {
           error_msg.append(mysql_stmt_error(stmt));
           error_msg.append(" : ");
           error_msg.append(query);
-          throw std::runtime_error(error_msg.c_str());
+          std::printf("error at MYSQL Query: %s\n", error_msg.c_str());
       }
       if(mysql_stmt_execute(stmt)){
           std::string error_msg = "SQL query execution failed: ";
           error_msg.append(mysql_stmt_error(stmt));
           error_msg.append(" : ");
           error_msg.append(query);
-          throw std::runtime_error(error_msg.c_str());
+          std::printf("error at MYSQL Query: %s\n", error_msg.c_str());
       }
       mysql_stmt_close(stmt);
       
